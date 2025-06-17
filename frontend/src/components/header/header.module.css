@@ -1,0 +1,21 @@
+.header {
+  background-color: rgb(49 49 49);
+  padding: 10px 0;
+  position: sticky;
+  top: 0;
+}
+
+.link_list {
+  text-transform: lowercase;
+}
+
+.auth_links_container {
+  margin-left: auto;
+}
+
+.link_list,
+.auth_links_container,
+.private_links_container {
+  display: flex;
+  column-gap: 10px;
+}

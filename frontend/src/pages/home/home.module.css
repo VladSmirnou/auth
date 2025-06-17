@@ -1,0 +1,15 @@
+.continue_links {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.description {
+  padding: 10px;
+  border: 1px solid white;
+  border-radius: 10px;
+}
+
+.description_todo_title {
+  text-align: left;
+  color: rgb(22, 211, 205);
+}

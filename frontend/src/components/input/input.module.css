@@ -1,0 +1,11 @@
+.input {
+  padding: 5px 10px;
+  background: var(--text-site);
+  border-radius: 8px;
+  color: black;
+  width: 100%;
+}
+
+.input::placeholder {
+  color: rgb(173, 173, 173);
+}

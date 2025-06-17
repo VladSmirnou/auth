@@ -1,0 +1,9 @@
+.button {
+  color: palevioletred;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.button:hover {
+  color: rgb(253, 196, 215);
+}

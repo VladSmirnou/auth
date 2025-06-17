@@ -1,0 +1,9 @@
+import { InputProps } from './types';
+import styles from './input.module.css';
+import cn from 'classnames';
+
+export const Input = ({ className, ...rest }: InputProps) => {
+  return (
+    <input type="text" className={cn(styles.input, className)} {...rest} />
+  );
+};

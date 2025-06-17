@@ -1,0 +1,35 @@
+@import url('./reset.css');
+
+:root {
+  --text-site: white;
+  --font-size-site: 20px;
+}
+
+*,
+::before,
+::after {
+  color: var(--text-site);
+  font-size: var(--font-size-site);
+}
+
+h1 {
+  font-size: 35px;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+h2 {
+  margin-bottom: 15px;
+}
+
+h1,
+h2,
+h3 {
+  color: rgb(241, 150, 13);
+  text-align: center;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 17px;
+}

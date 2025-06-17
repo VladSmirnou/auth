@@ -1,0 +1,10 @@
+.form {
+  display: grid;
+  max-width: 600px;
+  margin: 0 auto;
+  row-gap: 10px;
+}
+
+.form button[type='submit'] {
+  justify-self: center;
+}
