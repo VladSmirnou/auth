@@ -4,6 +4,9 @@
 
 ### Common
 
+- Add variables for some repeating elements in the
+compose file
+
 ### Project utils
 
 - Add redux query validation schemas 
