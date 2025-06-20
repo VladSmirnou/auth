@@ -1,48 +1,42 @@
+import { baseApi } from '../base-api';
 import {
-  loginFormFieldErrorsSchema,
-  signupFormFieldErrorsSchema,
-} from './schemas/fieldErrorSchema';
-import { baseApi } from './base-api';
-
-export type LoginResponse = {
-  accessToken: string;
-};
-
-type LoginRequest = {
-  email: string;
-  password: string;
-};
-
-type SignupRequest = {
-  email: string;
-  password: string;
-  username: string;
-};
+  loginArgsSchema,
+  loginResponseSchema,
+  signupArgsSchema,
+} from './schemas/endpoint-args-schemas';
+import {
+  loginFormErrorResponseSchema,
+  signupFormErrorResponseSchema,
+} from './schemas/field-error-schemas';
+import type { LoginArgs, LoginResponse, SignupArgs } from './types';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    login: build.mutation<LoginResponse, LoginRequest>({
+    login: build.mutation<LoginResponse, LoginArgs>({
       query: (data) => ({
         url: 'auth/login',
         method: 'POST',
         body: data,
       }),
+      argSchema: loginArgsSchema,
+      responseSchema: loginResponseSchema,
       transformErrorResponse: (error) => {
-        const parsedError = loginFormFieldErrorsSchema.safeParse(error.data);
+        const parsedError = loginFormErrorResponseSchema.safeParse(error.data);
         if (parsedError.success) {
           return parsedError.data.errors;
         }
         return error;
       },
     }),
-    signup: build.mutation<void, SignupRequest>({
+    signup: build.mutation<void, SignupArgs>({
       query: (data) => ({
         url: 'auth/signup',
         method: 'POST',
         body: data,
       }),
+      argSchema: signupArgsSchema,
       transformErrorResponse: (error) => {
-        const parsedError = signupFormFieldErrorsSchema.safeParse(error.data);
+        const parsedError = signupFormErrorResponseSchema.safeParse(error.data);
         if (parsedError.success) {
           return parsedError.data.errors;
         }

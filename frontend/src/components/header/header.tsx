@@ -1,4 +1,4 @@
-import { useLogoutMutation } from '../../api/auth-api';
+import { useLogoutMutation } from '../../api/auth-api/auth-api';
 import { useAppSelector } from '../../hooks/hooks';
 import { APP_ROUTES } from '../../router/constants/app-routes';
 import { Button } from '../button/button';

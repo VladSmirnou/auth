@@ -1,11 +1,10 @@
-import './index.css';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router';
+import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { store } from './store/store';
 import { router } from './router/router';
-import { z } from 'zod/v4';
+import { store } from './store/store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

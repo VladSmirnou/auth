@@ -1,5 +1,4 @@
-import { data } from 'react-router-dom';
-import { useGetCardsQuery } from '../../api/cards-api';
+import { useGetCardsQuery } from '../../api/cards-api/cards-api';
 import { Container } from '../../components/container/container';
 import { Loader } from '../../components/loader/loader';
 import { Section } from '../../components/section/section';

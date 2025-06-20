@@ -121,5 +121,12 @@ const baseQueryWithReauth: BaseQueryFn<
 export const baseApi = createApi({
   reducerPath: 'base',
   baseQuery: baseQueryWithReauth,
+  catchSchemaFailure: (error) => {
+    return {
+      status: 'CUSTOM_ERROR' as const,
+      error: `${error.schemaName} failed validation`,
+      data: error.message,
+    };
+  },
   endpoints: () => ({}),
 });
