@@ -6,8 +6,8 @@ import { cardsRouter } from './router/cards.js';
 
 import { print } from './utils/print.js';
 
-const PORT = process.env.PORT || 3001
-const HOST = process.env.HOST || '0.0.0.0'
+const PORT = process.env.PORT;
+const HOST = process.env.HOST;
 
 const app = express();
 app.use(express.json());
