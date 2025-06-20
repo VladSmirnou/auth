@@ -4,6 +4,11 @@ import cn from 'classnames';
 
 export const Input = ({ className, ...rest }: InputProps) => {
   return (
-    <input type="text" className={cn(styles.input, className)} {...rest} />
+    <input
+      type="text"
+      autoComplete="on"
+      className={cn(styles.input, className)}
+      {...rest}
+    />
   );
 };

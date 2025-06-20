@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useSignupMutation } from '../../api/auth-api';
+import { useSignupMutation } from '../../api/auth-api/auth-api';
 import { Button } from '../../components/button/button';
 import { Container } from '../../components/container/container';
 import { Field } from '../../components/field/field';
@@ -11,11 +11,12 @@ import { AppLink } from '../../components/link/link';
 import { Section } from '../../components/section/section';
 import { APP_ROUTES } from '../../router/constants/app-routes';
 import { DEFAULT_FORM_DATA } from './constants';
-import { signupFieldsErrorsSchema, signupFormSchema } from './schemas';
-import type { SignupFormData } from './types';
 import styles from './signup.module.css';
 import { toast } from 'react-toastify';
 import { getApiErrorMessage } from '../../shared/utils/getApiErrorMessage';
+import { signupFormFieldErrorsSchema } from '../../api/auth-api/schemas/field-error-schemas';
+import { signupArgsSchema } from '../../api/auth-api/schemas/endpoint-args-schemas';
+import type { SignupArgs } from '../../api/auth-api/types';
 
 export const Signup = () => {
   const navigate = useNavigate();
@@ -27,16 +28,16 @@ export const Signup = () => {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<SignupFormData>({
+  } = useForm<SignupArgs>({
     defaultValues: DEFAULT_FORM_DATA,
-    resolver: zodResolver(signupFormSchema),
+    resolver: zodResolver(signupArgsSchema),
   });
 
-  const onSubmit: SubmitHandler<SignupFormData> = async (data) => {
+  const onSubmit: SubmitHandler<SignupArgs> = async (data) => {
     const res = await signupTrigger(data);
 
     if (res.error) {
-      const fieldsError = signupFieldsErrorsSchema.safeParse(res.error);
+      const fieldsError = signupFormFieldErrorsSchema.safeParse(res.error);
       if (fieldsError.success) {
         fieldsError.data.forEach(({ field, message }) => {
           setError(field, { message });

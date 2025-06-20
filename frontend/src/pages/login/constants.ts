@@ -1,10 +1,10 @@
-import type { LoginFormData } from "./types";
+import {
+  EMAIL_FIELD,
+  PASSWORD_FIELD,
+} from '../../api/auth-api/schemas/constants';
+import type { LoginArgs } from '../../api/auth-api/types';
 
-export const INVALID_PASSWORD_LENGTH_MESSAGE =
-  'Invalid password length, must be min 8 and max 40 characters long.';
-
-export const DEFAULT_FORM_DATA: LoginFormData = {
-  email: '',
-  password: '',
+export const DEFAULT_FORM_DATA: LoginArgs = {
+  [EMAIL_FIELD]: '',
+  [PASSWORD_FIELD]: '',
 };
-  

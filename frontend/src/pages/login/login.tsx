@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { useLoginMutation } from '../../api/auth-api';
+import { useLoginMutation } from '../../api/auth-api/auth-api';
 import { Button } from '../../components/button/button';
 import { Container } from '../../components/container/container';
 import { Field } from '../../components/field/field';
@@ -12,9 +12,10 @@ import { Section } from '../../components/section/section';
 import { APP_ROUTES } from '../../router/constants/app-routes';
 import { getApiErrorMessage } from '../../shared/utils/getApiErrorMessage';
 import { DEFAULT_FORM_DATA } from './constants';
-import { loginFieldsErrorsSchema, loginFormSchema } from './schemas';
-import type { LoginFormData } from './types';
 import styles from './login.module.css';
+import { loginFormFieldErrorsSchema } from '../../api/auth-api/schemas/field-error-schemas';
+import { loginArgsSchema } from '../../api/auth-api/schemas/endpoint-args-schemas';
+import type { LoginArgs } from '../../api/auth-api/types';
 
 export const Login = () => {
   const [loginTrigger] = useLoginMutation();
@@ -24,15 +25,15 @@ export const Login = () => {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<LoginFormData>({
+  } = useForm<LoginArgs>({
     defaultValues: DEFAULT_FORM_DATA,
-    resolver: zodResolver(loginFormSchema),
+    resolver: zodResolver(loginArgsSchema),
   });
 
-  const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
+  const onSubmit: SubmitHandler<LoginArgs> = async (data) => {
     const res = await loginTrigger(data);
     if (res.error) {
-      const fieldsError = loginFieldsErrorsSchema.safeParse(res.error);
+      const fieldsError = loginFormFieldErrorsSchema.safeParse(res.error);
       if (fieldsError.success) {
         fieldsError.data.forEach(({ field, message }) => {
           setError(field, { message });

@@ -41,7 +41,6 @@ const generateAccessToken = (user) => {
 }
 
 authRouter.get('/refresh', (req, res) => {
-    console.log('refresh token: ', req.cookies.refreshToken);
     const refreshToken = req.cookies.refreshToken;
 
     if (!refreshToken) return res.status(401).json({ error: 'refresh token cookie is missing' });
@@ -110,6 +109,15 @@ const pathValidationSchemaConfig = {
     '/signup': signUpValidationSchemaConfig
 }
 
+const errorFormatter = (errors) => {
+    return Object.entries(errors.mapped()).map(([field, { msg: message }]) => {
+        return {
+            field,
+            message
+        }
+    })
+}
+
 const validationSchema = async (req, res, next) => {
     const schemaConfig = pathValidationSchemaConfig[req.route.path];
 
@@ -118,7 +126,7 @@ const validationSchema = async (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() })
+        return res.status(400).json({ errors: errorFormatter(errors) })
     } else {
         next();
     }
