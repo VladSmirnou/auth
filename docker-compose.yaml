@@ -1,19 +1,19 @@
-services: 
+services:
   back:
     depends_on:
       db:
         condition: service_healthy
     build:
       context: backend
-      dockerfile: ../Dockerfile
-    env_file: backend/.env.prod
+      dockerfile: &Dockerfile ../Dockerfile
+    env_file: &env-file backend/.env.prod
     ports:
       - "3001:3001"
     command: npm run prod
   front:
     build:
       context: frontend
-      dockerfile: ../Dockerfile
+      dockerfile: *Dockerfile
     ports:
       - "3000:3000"
     depends_on:
@@ -21,8 +21,8 @@ services:
         condition: service_started
     command: yarn start
   db:
-    image: "postgres"
-    env_file: backend/.env.prod
+    image: postgres
+    env_file: *env-file
     volumes:
       - auth-db:/var/lib/postgresql/data
     healthcheck:
