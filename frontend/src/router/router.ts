@@ -1,5 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { AuthLayout } from '../layouts/auth-layout';
 import { AuthPagesLayout } from '../layouts/auth-pages-layout';
 import { MainLayout } from '../layouts/main/main';
 import { Login } from '../pages/login/login';
@@ -8,6 +7,7 @@ import { Home } from '../pages/home/home';
 import { Cards } from '../pages/cards/Cards';
 import { UserCreated } from '../pages/user-created';
 import { APP_ROUTES } from './constants/app-routes';
+import { ProtectedRoutesLayout } from '../layouts/protected-routes-layout';
 
 export const router = createBrowserRouter([
   {
@@ -31,7 +31,7 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        Component: AuthLayout,
+        Component: ProtectedRoutesLayout,
         children: [
           {
             path: APP_ROUTES.cards,

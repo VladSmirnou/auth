@@ -1,4 +1,4 @@
-import { baseApi } from '../base-api';
+import { baseApi } from '../base-api/base-api';
 import {
   loginArgsSchema,
   loginResponseSchema,
@@ -47,10 +47,14 @@ export const authApi = baseApi.injectEndpoints({
       query: () => ({
         url: 'auth/login',
         method: 'DELETE',
+        responseHandler: 'content-type',
       }),
     }),
     isLogin: build.query<void, void>({
-      query: () => 'auth/login',
+      query: () => ({
+        url: 'auth/login',
+        responseHandler: 'text',
+      }),
     }),
   }),
 });
