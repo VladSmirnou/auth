@@ -1,17 +1,19 @@
 import { useLogoutMutation } from '../../api/auth-api/auth-api';
+import { selectIsLogin } from '../../api/auth-slice';
 import { useAppSelector } from '../../hooks/hooks';
 import { APP_ROUTES } from '../../router/constants/app-routes';
+import { not } from '../../shared/utils/not';
 import { Button } from '../button/button';
 import { Container } from '../container/container';
 import { AppLink } from '../link/link';
 import styles from './header.module.css';
 
 export const Header = () => {
-  const isLogin = useAppSelector((state) => state.auth.isLogin);
+  const isLogin = useAppSelector(selectIsLogin);
   const [logoutMutation] = useLogoutMutation();
 
-  const handleLogout = () => {
-    logoutMutation();
+  const handleLogout = async () => {
+    await logoutMutation();
   };
 
   return (
@@ -30,12 +32,16 @@ export const Header = () => {
               </div>
             )}
             <div className={styles.auth_links_container}>
-              <li>
-                <AppLink to={APP_ROUTES.login}>Login</AppLink>
-              </li>
-              <li>
-                <AppLink to={APP_ROUTES.signup}>Signup</AppLink>
-              </li>
+              {not(isLogin) && (
+                <>
+                  <li>
+                    <AppLink to={APP_ROUTES.login}>Login</AppLink>
+                  </li>
+                  <li>
+                    <AppLink to={APP_ROUTES.signup}>Signup</AppLink>
+                  </li>
+                </>
+              )}
               {isLogin && (
                 <li>
                   <Button onClick={handleLogout}>logout</Button>

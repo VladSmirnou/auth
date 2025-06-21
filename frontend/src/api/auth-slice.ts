@@ -1,55 +1,52 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { authApi } from './auth-api/auth-api';
-import { newAccessTokenReceived, refreshTokenExpired } from './base-api';
-import type { LoginResponse } from './auth-api/types';
+import {
+  newAccessTokenReceived,
+  refreshTokenExpired,
+} from './base-api/actions';
 
 const initialState = {
   accessToken: undefined as undefined | string,
   forceLogoutPath: undefined as undefined | string,
-  isLogin: false,
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    userLoggedInAfterForceLogout: (state) => {
-      return { ...state, forceLogoutPath: undefined };
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => ({
     newAccessTokenReceived: builder.addCase(
       newAccessTokenReceived,
       (state, action) => {
-        if (state.isLogin === false) {
-          state.isLogin = true;
-        }
         state.accessToken = action.payload.accessToken;
       }
     ),
     refreshTokenExpired: builder.addCase(
       refreshTokenExpired,
       (state, action) => {
-        return {
-          ...initialState,
-          forceLogoutPath: action.payload.logoutURL,
-        };
+        state.accessToken = undefined;
+        state.forceLogoutPath = action.payload.logoutURL;
       }
     ),
     userLoggedIn: builder.addMatcher(
       authApi.endpoints.login.matchFulfilled,
-      (state, action: PayloadAction<LoginResponse>) => {
+      (state, action) => {
         state.accessToken = action.payload.accessToken;
-        state.isLogin = true;
       }
     ),
     userLoggedOut: builder.addMatcher(
-      authApi.endpoints.logout.matchPending,
+      isAnyOf(
+        authApi.endpoints.logout.matchFulfilled,
+        authApi.endpoints.logout.matchRejected
+      ),
       () => initialState
     ),
   }),
+  selectors: {
+    selectIsLogin: (state) => !!state.accessToken,
+    selectForceLogoutPath: (state) => state.forceLogoutPath,
+  },
 });
 
 export const { name: authSliceName, reducer: authSliceReducer } = authSlice;
-
-export const { userLoggedInAfterForceLogout } = authSlice.actions;
+export const { selectIsLogin, selectForceLogoutPath } = authSlice.selectors;

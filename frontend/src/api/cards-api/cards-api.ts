@@ -1,4 +1,4 @@
-import { baseApi } from '../base-api';
+import { baseApi } from '../base-api/base-api';
 import { cardsSchema } from './schemas';
 import type { Cards } from './types';
 

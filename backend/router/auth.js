@@ -5,6 +5,8 @@ import jwt from 'jsonwebtoken';
 import { not } from '../utils/not.js';
 import { validationResult, checkSchema } from 'express-validator';
 
+const refreshTokenCookieKey = 'refreshToken';
+
 export const authRouter = express.Router();
 
 export const authenticate = (req, res, next) => {
@@ -51,7 +53,7 @@ authRouter.get('/refresh', (req, res) => {
                 `delete from auth where refresh_token=$1`,
                 [refreshToken]
             ).finally(() => {
-                res.clearCookie('refreshToken');
+                res.clearCookie(refreshTokenCookieKey);
                 res.status(403).json({ error: 'expired or invalid refresh token' });
             })
         } else {
@@ -64,7 +66,8 @@ authRouter.get('/refresh', (req, res) => {
                         });
                         res.status(200).json({ accessToken });
                     } else {
-                        res.status(404).json({ error: 'user doesn\'t exist' });
+                        res.clearCookie(refreshTokenCookieKey);
+                        res.status(400).json({ error: 'user doesn\'t exist' });
                     }
                 })
         }
@@ -189,7 +192,7 @@ authRouter.route('/login')
             )
 
             res.cookie(
-                'refreshToken',
+                refreshTokenCookieKey,
                 refreshToken,
                 {
                     httpOnly: true,
@@ -215,9 +218,9 @@ authRouter.route('/login')
             `delete from auth where refresh_token=$1`,
             [refreshToken]
         );
-        res.clearCookie('refreshToken');
+        res.clearCookie(refreshTokenCookieKey);
         return res.sendStatus(200);
     })
     .get(authenticate, async (req, res) => {
-        return res.status(200).send({ message: 'authenticated' });
+        return res.sendStatus(200);
     })
