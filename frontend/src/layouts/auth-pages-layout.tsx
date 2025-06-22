@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { selectForceLogoutPath } from '../api/auth-slice';
 import { Loader } from '../components/loader/loader';
-import { useAppSelector } from '../hooks/hooks';
+import { useAppSelector } from '../hooks/typed-react-redux-hooks';
 import { useIsLogin } from '../hooks/useIsLogin';
 import { APP_ROUTES } from '../router/constants/app-routes';
+import { selectForceLogoutPath } from '../model/auth-slice/auth-slice';
 
 export const AuthPagesLayout = () => {
   const { isLoading, isLogin } = useIsLogin();
@@ -11,8 +11,9 @@ export const AuthPagesLayout = () => {
 
   if (isLoading) return <Loader />;
 
-  if (isLogin)
-    return <Navigate to={forceLogoutPath ?? APP_ROUTES.cards} replace />;
-
-  return <Outlet />;
+  return isLogin ? (
+    <Navigate to={forceLogoutPath ?? APP_ROUTES.cards} replace />
+  ) : (
+    <Outlet />
+  );
 };

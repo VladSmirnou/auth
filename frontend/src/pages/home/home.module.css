@@ -3,13 +3,30 @@
   margin-top: 20px;
 }
 
+.description_block {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.reset_auth_mode_button {
+  font-size: 25px;
+}
+
 .description {
   padding: 10px;
   border: 1px solid white;
   border-radius: 10px;
+  text-align: left;
 }
 
 .description_todo_title {
   text-align: left;
   color: rgb(22, 211, 205);
+}
+
+.select_auth_mode_buttons_container {
+  margin-top: 10px;
+  display: grid;
+  row-gap: 10px;
+  justify-items: center;
 }

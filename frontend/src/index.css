@@ -3,6 +3,7 @@
 :root {
   --text-site: white;
   --font-size-site: 20px;
+  --color-disabled: rgb(143, 143, 143);
 }
 
 *,

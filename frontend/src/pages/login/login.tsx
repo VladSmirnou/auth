@@ -23,7 +23,7 @@ export const Login = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
     setError,
   } = useForm<LoginArgs>({
     defaultValues: DEFAULT_FORM_DATA,
@@ -58,7 +58,13 @@ export const Login = () => {
             id="email"
             error={errors.email?.message}
             redernField={(id) => (
-              <Input id={id} type="email" placeholder={id} {...register(id)} />
+              <Input
+                id={id}
+                autoFocus
+                type="email"
+                placeholder={id}
+                {...register(id)}
+              />
             )}
           />
           <Field
@@ -73,7 +79,9 @@ export const Login = () => {
               />
             )}
           />
-          <Button type="submit">login</Button>
+          <Button type="submit" disabled={!isDirty || !isValid}>
+            login
+          </Button>
         </Form>
         <AppLink to={APP_ROUTES.signup} className={styles.link}>
           Create a new account

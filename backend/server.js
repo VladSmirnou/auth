@@ -3,7 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { authRouter } from './router/auth.js';
 import { cardsRouter } from './router/cards.js';
-
+import { sessionBasedAuthRouter } from './router/session-based-auth.js';
 import { print } from './utils/print.js';
 
 const PORT = process.env.PORT;
@@ -25,6 +25,7 @@ app.use((req, res, next) => {
 
 app.use('/auth', authRouter);
 app.use('/cards', cardsRouter);
+app.use('/sessionBasedAuth', sessionBasedAuthRouter)
 
 app.listen(
     PORT,

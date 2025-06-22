@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { APP_ROUTES } from '../../router/constants/app-routes';
 import { MAX_PROGRESS_VALUE } from './constants';
 
 const condition = (timer: number) => timer > MAX_PROGRESS_VALUE - 1;
 
-export const UserCreated = () => {
+type Props = {
+  loginPageRedirectUrl: string;
+};
+
+export const UserCreated = ({ loginPageRedirectUrl }: Props) => {
   const [timer, setTimer] = useState(0);
 
   useEffect(() => {
@@ -20,7 +23,7 @@ export const UserCreated = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  if (condition(timer)) return <Navigate to={APP_ROUTES.login} replace />;
+  if (condition(timer)) return <Navigate to={loginPageRedirectUrl} replace />;
 
   return (
     <div>
@@ -38,7 +41,9 @@ export const UserCreated = () => {
           {timer}
         </progress>
       </div>
-      <Link to={APP_ROUTES.login}>You can now login with your credentials</Link>
+      <Link to={loginPageRedirectUrl}>
+        You can now login with your credentials
+      </Link>
     </div>
   );
 };

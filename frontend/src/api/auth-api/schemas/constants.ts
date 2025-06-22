@@ -1,3 +1,9 @@
+import {
+  EMAIL_FIELD,
+  PASSWORD_FIELD,
+  USERNAME_FIELD,
+} from '../../../shared/constants/form-fields';
+
 export const INVALID_FIELD_MESSAGES = {
   INVALID_PASSWORD_LENGTH:
     'Invalid password length, must be min 8 and max 40 characters long.',
@@ -5,10 +11,6 @@ export const INVALID_FIELD_MESSAGES = {
   USERNAME_REQUIRED: 'Username cannot be empty',
   USERNAME_MAX_LENGTH: 'Username cannot be longer that 20 characters',
 };
-
-export const EMAIL_FIELD = 'email' as const;
-export const PASSWORD_FIELD = 'password' as const;
-export const USERNAME_FIELD = 'username' as const;
 
 export const LOGIN_FIELDS = [EMAIL_FIELD, PASSWORD_FIELD];
 export const SIGNUP_FIELDS = [EMAIL_FIELD, PASSWORD_FIELD, USERNAME_FIELD];

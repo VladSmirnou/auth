@@ -26,7 +26,7 @@ export const Signup = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
     setError,
   } = useForm<SignupArgs>({
     defaultValues: DEFAULT_FORM_DATA,
@@ -64,14 +64,26 @@ export const Signup = () => {
             id="username"
             error={errors.username?.message}
             redernField={(id) => (
-              <Input id={id} placeholder={id} {...register(id)} />
+              <Input
+                id={id}
+                autoFocus
+                autoComplete="off"
+                placeholder={id}
+                {...register(id)}
+              />
             )}
           />
           <Field
             id="email"
             error={errors.email?.message}
             redernField={(id) => (
-              <Input type="email" id={id} placeholder={id} {...register(id)} />
+              <Input
+                type="email"
+                autoComplete="off"
+                id={id}
+                placeholder={id}
+                {...register(id)}
+              />
             )}
           />
           <Field
@@ -80,13 +92,16 @@ export const Signup = () => {
             redernField={(id) => (
               <Input
                 type="password"
+                autoComplete="off"
                 id={id}
                 placeholder={id}
                 {...register(id)}
               />
             )}
           />
-          <Button type="submit">signin</Button>
+          <Button type="submit" disabled={!isDirty || !isValid}>
+            signin
+          </Button>
         </Form>
         <AppLink to={APP_ROUTES.login} className={styles.link}>
           Already have an account?

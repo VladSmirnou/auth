@@ -1,21 +1,30 @@
-import { useLogoutMutation } from '../../api/auth-api/auth-api';
-import { selectIsLogin } from '../../api/auth-slice';
-import { useAppSelector } from '../../hooks/hooks';
+import type { FunctionComponent } from 'react';
+import { useAppSelector } from '../../hooks/typed-react-redux-hooks';
+import { selectCurrentAuthMode } from '../../model/app-slice/app-slice';
+import type { AuthModes } from '../../model/app-slice/types';
 import { APP_ROUTES } from '../../router/constants/app-routes';
-import { not } from '../../shared/utils/not';
-import { Button } from '../button/button';
 import { Container } from '../container/container';
 import { AppLink } from '../link/link';
+import { JWTNavigation } from './navigation/jwt-navigation';
+import { SessionNavigation } from './navigation/session-navigation';
 import styles from './header.module.css';
 
+const navigation: Record<AuthModes, FunctionComponent> = {
+  JWT: JWTNavigation,
+  session: SessionNavigation,
+};
+
+const AppNavigation = () => {
+  const authMode = useAppSelector(selectCurrentAuthMode);
+
+  if (!authMode) return null;
+
+  const Navigation = navigation[authMode];
+
+  return <Navigation />;
+};
+
 export const Header = () => {
-  const isLogin = useAppSelector(selectIsLogin);
-  const [logoutMutation] = useLogoutMutation();
-
-  const handleLogout = () => {
-    logoutMutation();
-  };
-
   return (
     <header className={styles.header}>
       <Container>
@@ -24,33 +33,7 @@ export const Header = () => {
             <li>
               <AppLink to={APP_ROUTES.root}>Home</AppLink>
             </li>
-            {isLogin && (
-              <div className={styles.private_links_container}>
-                <li>
-                  <AppLink to={APP_ROUTES.randomPage}>Random page</AppLink>
-                </li>
-                <li>
-                  <AppLink to={APP_ROUTES.cards}>Cards</AppLink>
-                </li>
-              </div>
-            )}
-            <div className={styles.auth_links_container}>
-              {not(isLogin) && (
-                <>
-                  <li>
-                    <AppLink to={APP_ROUTES.login}>Login</AppLink>
-                  </li>
-                  <li>
-                    <AppLink to={APP_ROUTES.signup}>Signup</AppLink>
-                  </li>
-                </>
-              )}
-              {isLogin && (
-                <li>
-                  <Button onClick={handleLogout}>logout</Button>
-                </li>
-              )}
-            </div>
+            <AppNavigation />
           </ul>
         </nav>
       </Container>
