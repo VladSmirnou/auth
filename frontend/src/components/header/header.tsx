@@ -12,8 +12,8 @@ export const Header = () => {
   const isLogin = useAppSelector(selectIsLogin);
   const [logoutMutation] = useLogoutMutation();
 
-  const handleLogout = async () => {
-    await logoutMutation();
+  const handleLogout = () => {
+    logoutMutation();
   };
 
   return (
@@ -26,6 +26,9 @@ export const Header = () => {
             </li>
             {isLogin && (
               <div className={styles.private_links_container}>
+                <li>
+                  <AppLink to={APP_ROUTES.randomPage}>Random page</AppLink>
+                </li>
                 <li>
                   <AppLink to={APP_ROUTES.cards}>Cards</AppLink>
                 </li>

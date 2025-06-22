@@ -5,9 +5,10 @@ import { Login } from '../pages/login/login';
 import { Signup } from '../pages/signup/signup';
 import { Home } from '../pages/home/home';
 import { Cards } from '../pages/cards/Cards';
-import { UserCreated } from '../pages/user-created';
+import { UserCreated } from '../pages/user-created/user-created';
 import { APP_ROUTES } from './constants/app-routes';
 import { ProtectedRoutesLayout } from '../layouts/protected-routes-layout';
+import { RandomPage } from '../pages/random-page/random-page';
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
           {
             path: APP_ROUTES.cards,
             Component: Cards,
+          },
+          {
+            path: APP_ROUTES.randomPage,
+            Component: RandomPage,
           },
         ],
       },

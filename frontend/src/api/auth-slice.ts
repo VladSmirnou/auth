@@ -1,4 +1,4 @@
-import { createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { authApi } from './auth-api/auth-api';
 import {
   newAccessTokenReceived,
@@ -35,10 +35,7 @@ const authSlice = createSlice({
       }
     ),
     userLoggedOut: builder.addMatcher(
-      isAnyOf(
-        authApi.endpoints.logout.matchFulfilled,
-        authApi.endpoints.logout.matchRejected
-      ),
+      authApi.endpoints.logout.matchPending,
       () => initialState
     ),
   }),
