@@ -3,6 +3,7 @@ import type { AppAuthModes } from './types';
 
 const initialState = {
   authMode: undefined as AppAuthModes,
+  isLogin: false,
 };
 
 export const appSlice = createSlice({

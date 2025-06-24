@@ -5,6 +5,9 @@ import type {
   signupArgsSchema,
 } from './schemas/endpoint-args-schemas';
 
+export type RefreshTokenExpired = { logoutURL: string };
+export type NewAccessTokeReponse = { accessToken: string };
+
 export type LoginResponse = z.infer<typeof loginResponseSchema>;
 
 export type LoginArgs = z.infer<typeof loginArgsSchema>;

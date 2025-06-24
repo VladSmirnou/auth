@@ -13,9 +13,17 @@ import type { AppAuthModes, AuthModes } from '../model/app-slice/types';
 import { SessionSignup } from '../pages/session-signup/session-signup';
 import { SessionLogin } from '../pages/session-login/session-login';
 
-const selectRouter = (authMode: AuthModes) => {
-  const userCreatedPageRoute = getUserCreatedPageRoute(authMode);
+const userCreatedRoute: RouteObject = {
+  path: APP_ROUTES.userCreated,
+  Component: UserCreated,
+};
 
+const homeRoute: RouteObject = {
+  index: true,
+  Component: Home,
+};
+
+const selectRouter = (authMode: AuthModes) => {
   if (authMode === 'JWT') {
     return [
       {
@@ -29,7 +37,7 @@ const selectRouter = (authMode: AuthModes) => {
             path: APP_ROUTES.signup,
             Component: Signup,
           },
-          userCreatedPageRoute,
+          userCreatedRoute,
         ],
       },
       {
@@ -49,46 +57,23 @@ const selectRouter = (authMode: AuthModes) => {
   } else {
     return [
       {
-        path: APP_ROUTES.sessionSignup,
+        path: APP_ROUTES.signup,
         Component: SessionSignup,
       },
       {
-        path: APP_ROUTES.sessionSignup,
-        Component: SessionSignup,
-      },
-      {
-        path: APP_ROUTES.sessionLogin,
+        path: APP_ROUTES.login,
         Component: SessionLogin,
       },
-      userCreatedPageRoute,
+      userCreatedRoute,
     ];
   }
 };
 
-const loginPageRedirectUrlMap: Record<AuthModes, string> = {
-  JWT: APP_ROUTES.login,
-  session: APP_ROUTES.sessionLogin,
-};
-
-const getUserCreatedPageRoute = (authMode: AuthModes): RouteObject => {
-  const loginPageRedirectUrl = loginPageRedirectUrlMap[authMode];
-
-  return {
-    path: APP_ROUTES.userCreated,
-    element: <UserCreated loginPageRedirectUrl={loginPageRedirectUrl} />,
-  };
-};
-
 export const getRouter = (authMode: AppAuthModes) => {
   let children: Array<RouteObject> = [
-    {
-      index: true,
-      Component: Home,
-    },
+    homeRoute,
+    ...(authMode ? selectRouter(authMode) : []),
   ];
-  if (authMode) {
-    children.push(...selectRouter(authMode));
-  }
 
   return createBrowserRouter([
     {

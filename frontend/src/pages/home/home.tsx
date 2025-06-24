@@ -13,6 +13,7 @@ import {
 import type { AppAuthModes, AuthModes } from '../../model/app-slice/types';
 import { not } from '../../shared/utils/not';
 import styles from './home.module.css';
+import { AuthOptions } from './auth-options/auth-options';
 
 const JWTDescription = () => {
   return (
@@ -51,6 +52,12 @@ const SessionDescription = () => {
   return (
     <Section className={styles.description}>
       <h2>Session</h2>
+      <div>
+        <p>
+          Session is stored in cookies on the client, and in the DB on the
+          server
+        </p>
+      </div>
     </Section>
   );
 };
@@ -61,27 +68,12 @@ const authModeDescription: Record<AuthModes, FunctionComponent> = {
 };
 
 export const Home = () => {
-  const dispatch = useAppDispatch();
   const authMode = useAppSelector(selectCurrentAuthMode);
-
-  const handleSetAuthMode = (authMode: AppAuthModes) => {
-    dispatch(authModeChanged(authMode));
-  };
 
   let descriptionBlock;
   if (authMode) {
     const Description = authModeDescription[authMode];
-    descriptionBlock = (
-      <div className={styles.description_block}>
-        <Button
-          className={styles.reset_auth_mode_button}
-          onClick={() => handleSetAuthMode(undefined)}
-        >
-          Reset auth mode
-        </Button>
-        <Description />
-      </div>
-    );
+    descriptionBlock = <Description />;
   }
 
   return (
@@ -92,17 +84,10 @@ export const Home = () => {
           In this project I&apos;m going to implement different types of
           authentication and authorization using React, Redux, Next.JS, etc.
         </p>
-        {not(descriptionBlock) && (
-          <Section>
-            <h2>Currently available auth modes</h2>
-            <div className={styles.select_auth_mode_buttons_container}>
-              <Button onClick={() => handleSetAuthMode('JWT')}>JWT</Button>
-              <Button onClick={() => handleSetAuthMode('session')}>
-                Session based auth
-              </Button>
-            </div>
-          </Section>
-        )}
+        <Section>
+          <h2>Currently available auth modes</h2>
+          <AuthOptions authMode={authMode} />
+        </Section>
         {descriptionBlock}
       </Container>
     </Section>

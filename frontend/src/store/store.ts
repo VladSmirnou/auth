@@ -1,20 +1,22 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import { baseApi } from '../api/base-api/base-api';
+import { jwtBaseApi } from '../api/jwt-auth-api/jwt-base-api';
 import { appSliceName, appSliceReducer } from '../model/app-slice/app-slice';
 import {
-  authSliceName,
-  authSliceReducer,
-} from '../model/auth-slice/auth-slice';
+  jwtAuthSliceName,
+  jwtAuthSliceReducer,
+} from '../model/jwt-auth-slice/jwt-auth-slice';
+import { sessionBaseApi } from '../api/session-auth-api/session-base-api';
 
 export const store = configureStore({
   reducer: {
-    [baseApi.reducerPath]: baseApi.reducer,
-    [authSliceName]: authSliceReducer,
+    [jwtBaseApi.reducerPath]: jwtBaseApi.reducer,
+    [jwtAuthSliceName]: jwtAuthSliceReducer,
+    [sessionBaseApi.reducerPath]: sessionBaseApi.reducer,
     [appSliceName]: appSliceReducer,
   },
   middleware: (gDM) => {
-    return gDM().concat(baseApi.middleware);
+    return gDM().concat([jwtBaseApi.middleware, sessionBaseApi.middleware]);
   },
 });
 

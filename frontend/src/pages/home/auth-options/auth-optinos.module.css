@@ -1,0 +1,37 @@
+.select_wrapper {
+  position: relative;
+}
+
+.select {
+  width: 100%;
+  background: var(--color-background);
+  color: gray;
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.select_option_selected {
+  color: black;
+}
+
+.option {
+  color: var(--color-black);
+}
+
+.default_option {
+  color: gray;
+}
+
+.select_wrapper::after {
+  color: var(--color-black);
+  content: '▼';
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform var(--transition-time);
+}
+
+.select_wrapper:focus-within::after {
+  transform: translateY(-60%) rotate(180deg);
+}

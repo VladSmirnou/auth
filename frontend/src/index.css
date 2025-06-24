@@ -4,6 +4,11 @@
   --text-site: white;
   --font-size-site: 20px;
   --color-disabled: rgb(143, 143, 143);
+  --color-black: black;
+  --color-white: white;
+  --color-background: white;
+
+  --transition-time: 0.2s;
 }
 
 *,

@@ -1,0 +1,17 @@
+.link {
+  color: rgb(95, 95, 220);
+  font-weight: 700;
+}
+
+.active_link {
+  pointer-events: none;
+  color: rgb(191, 191, 224);
+}
+
+.link:not(.active_link):hover {
+  color: rgb(144, 144, 226);
+}
+
+.link:not(.active_link):active {
+  color: rgb(72, 72, 214);
+}

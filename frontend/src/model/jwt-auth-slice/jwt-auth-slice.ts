@@ -1,17 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { authApi } from '../../api/auth-api/auth-api';
+import { jwtAuthApi } from '../../api/jwt-auth-api/jwt-auth-api';
 import {
   newAccessTokenReceived,
   refreshTokenExpired,
-} from '../../api/base-api/actions';
+} from '../../api/jwt-auth-api/actions';
 
 const initialState = {
   accessToken: undefined as undefined | string,
   forceLogoutPath: undefined as undefined | string,
 };
 
-const authSlice = createSlice({
-  name: 'auth',
+const jwtAuthSlice = createSlice({
+  name: 'jwtAuth',
   initialState,
   reducers: {},
   extraReducers: (builder) => ({
@@ -29,13 +29,13 @@ const authSlice = createSlice({
       }
     ),
     userLoggedIn: builder.addMatcher(
-      authApi.endpoints.login.matchFulfilled,
+      jwtAuthApi.endpoints.login.matchFulfilled,
       (state, action) => {
         state.accessToken = action.payload.accessToken;
       }
     ),
     userLoggedOut: builder.addMatcher(
-      authApi.endpoints.logout.matchPending,
+      jwtAuthApi.endpoints.logout.matchPending,
       () => initialState
     ),
   }),
@@ -45,5 +45,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { name: authSliceName, reducer: authSliceReducer } = authSlice;
-export const { selectIsLogin, selectForceLogoutPath } = authSlice.selectors;
+export const { name: jwtAuthSliceName, reducer: jwtAuthSliceReducer } =
+  jwtAuthSlice;
+export const { selectIsLogin, selectForceLogoutPath } = jwtAuthSlice.selectors;

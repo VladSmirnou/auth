@@ -5,4 +5,5 @@ export type FieldProps<T> = {
   error?: string;
   id: T;
   redernField: (id: T) => ReactElement;
+  required?: boolean;
 };

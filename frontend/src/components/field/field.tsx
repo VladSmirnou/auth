@@ -1,17 +1,22 @@
 import { FieldProps } from './types';
-import style from './field.module.css';
+import styles from './field.module.css';
+import { RequiredHint } from '../required-hint/required-hint';
 
 export const Field = <T extends string>({
   id,
   redernField: renderField,
   label,
   error,
+  required = true,
 }: FieldProps<T>) => {
   return (
     <div>
       {label && <label htmlFor={id}>{label}</label>}
-      {renderField(id)}
-      {error && <p className={style.error}>{error}</p>}
+      <div className={styles.required_container}>
+        {renderField(id)}
+        {required && <RequiredHint />}
+      </div>
+      {error && <p className={styles.error}>{error}</p>}
     </div>
   );
 };

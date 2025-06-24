@@ -1,4 +1,4 @@
-import { useGetCardsQuery } from '../../api/cards-api/cards-api';
+import { useGetCardsQuery } from '../../api/jwt-auth-api/cards-api/cards-api';
 
 export const RandomPage = () => {
   useGetCardsQuery();

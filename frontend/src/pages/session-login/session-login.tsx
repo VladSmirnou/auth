@@ -1,27 +1,22 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
-import { useLoginMutation } from '../../api/auth-api/auth-api';
-import { loginArgsSchema } from '../../api/auth-api/schemas/endpoint-args-schemas';
-import { loginFormFieldErrorsSchema } from '../../api/auth-api/schemas/field-error-schemas';
+import { AppLink } from '../../components/app-link/app-link';
 import { Button } from '../../components/button/button';
 import { Container } from '../../components/container/container';
 import { Field } from '../../components/field/field';
 import { Form } from '../../components/form/form';
 import { Input } from '../../components/input/input';
-import { AppLink } from '../../components/link/link';
 import { Section } from '../../components/section/section';
 import { APP_ROUTES } from '../../router/constants/app-routes';
-import { getApiErrorMessage } from '../../shared/utils/getApiErrorMessage';
 // import { DEFAULT_FORM_DATA } from './constants';
 // import styles from './login.module.css';
+import { sessionLoginArgsSchema } from '../../api/session-auth-api/schemas/endpoint-args-schemas';
+import { useLoginMutation } from '../../api/session-auth-api/session-auth-api';
+import type { SessionLoginArgs } from '../../api/session-auth-api/types';
 import { DEFAULT_FORM_DATA } from './constants';
-import { useSessionLoginMutation } from '../../api/auth-session-api/auth-session-api';
-import type { SessionLoginArgs } from '../../api/auth-session-api/types';
-import { sessionLoginArgsSchema } from '../../api/auth-session-api/schemas/endpoint-args-schemas';
 
 export const SessionLogin = () => {
-  const [loginTrigger] = useSessionLoginMutation();
+  const [loginTrigger] = useLoginMutation();
 
   const {
     register,
@@ -34,7 +29,8 @@ export const SessionLogin = () => {
   });
 
   const onSubmit: SubmitHandler<SessionLoginArgs> = async (data) => {
-    // const res = await loginTrigger(data);
+    const res = await loginTrigger(data);
+    console.log(res);
     // if (res.error) {
     //   const fieldsError = loginFormFieldErrorsSchema.safeParse(res.error);
     //   if (fieldsError.success) {
@@ -86,7 +82,7 @@ export const SessionLogin = () => {
             login
           </Button>
         </Form>
-        <AppLink to={APP_ROUTES.sessionSignup}>
+        <AppLink to={APP_ROUTES.signup}>
           {/* <AppLink to={APP_ROUTES.sessionSignup} className={styles.link}> */}
           Create a new account
         </AppLink>

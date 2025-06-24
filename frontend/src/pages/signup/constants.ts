@@ -3,7 +3,7 @@ import {
   PASSWORD_FIELD,
   USERNAME_FIELD,
 } from '../../shared/constants/form-fields';
-import type { SignupArgs } from '../../api/auth-api/types';
+import type { SignupArgs } from '../../api/jwt-auth-api/types';
 
 export const DEFAULT_FORM_DATA: SignupArgs = {
   [EMAIL_FIELD]: '',

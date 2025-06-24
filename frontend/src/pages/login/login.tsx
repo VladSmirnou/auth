@@ -1,20 +1,21 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { useLoginMutation } from '../../api/auth-api/auth-api';
-import { loginArgsSchema } from '../../api/auth-api/schemas/endpoint-args-schemas';
-import { loginFormFieldErrorsSchema } from '../../api/auth-api/schemas/field-error-schemas';
-import type { LoginArgs } from '../../api/auth-api/types';
+import { useLoginMutation } from '../../api/jwt-auth-api/jwt-auth-api';
+import { loginArgsSchema } from '../../api/jwt-auth-api/schemas/endpoint-args-schemas';
+import { loginFormFieldErrorsSchema } from '../../api/jwt-auth-api/schemas/field-error-schemas';
+import type { LoginArgs } from '../../api/jwt-auth-api/types';
 import { Button } from '../../components/button/button';
 import { Container } from '../../components/container/container';
 import { Field } from '../../components/field/field';
 import { Form } from '../../components/form/form';
 import { Input } from '../../components/input/input';
-import { AppLink } from '../../components/link/link';
+import { AppLink } from '../../components/app-link/app-link';
 import { Section } from '../../components/section/section';
 import { APP_ROUTES } from '../../router/constants/app-routes';
 import { getApiErrorMessage } from '../../shared/utils/getApiErrorMessage';
 import { DEFAULT_FORM_DATA } from './constants';
+import { RequiredHint } from '../../components/required-hint/required-hint';
 import styles from './login.module.css';
 
 export const Login = () => {
@@ -53,36 +54,41 @@ export const Login = () => {
     <Section>
       <Container>
         <h1>Login</h1>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <Field
-            id="email"
-            error={errors.email?.message}
-            redernField={(id) => (
-              <Input
-                id={id}
-                autoFocus
-                type="email"
-                placeholder={id}
-                {...register(id)}
-              />
-            )}
-          />
-          <Field
-            id="password"
-            error={errors.password?.message}
-            redernField={(id) => (
-              <Input
-                id={id}
-                type="password"
-                placeholder={id}
-                {...register(id)}
-              />
-            )}
-          />
-          <Button type="submit" disabled={!isDirty || !isValid}>
-            login
-          </Button>
-        </Form>
+        <div className={styles.form_container}>
+          <p className={styles.required_hint}>
+            Required fields: <RequiredHint />
+          </p>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <Field
+              id="email"
+              error={errors.email?.message}
+              redernField={(id) => (
+                <Input
+                  id={id}
+                  autoFocus
+                  type="email"
+                  placeholder={id}
+                  {...register(id)}
+                />
+              )}
+            />
+            <Field
+              id="password"
+              error={errors.password?.message}
+              redernField={(id) => (
+                <Input
+                  id={id}
+                  type="password"
+                  placeholder={id}
+                  {...register(id)}
+                />
+              )}
+            />
+            <Button type="submit" disabled={!isDirty || !isValid}>
+              login
+            </Button>
+          </Form>
+        </div>
         <AppLink to={APP_ROUTES.signup} className={styles.link}>
           Create a new account
         </AppLink>

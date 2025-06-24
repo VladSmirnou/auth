@@ -1,4 +1,4 @@
-import type { SessionSignupFormDataSchemaType } from '../../api/auth-session-api/types';
+import type { SessionSignupFormDataSchemaType } from '../../api/session-auth-api/types';
 import {
   CONFIRM_PASSWORD_FIELD,
   EMAIL_FIELD,

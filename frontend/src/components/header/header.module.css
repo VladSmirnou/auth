@@ -5,7 +5,21 @@
   top: 0;
 }
 
-.link_list {
+.link_list,
+.resources_links_container,
+.auth_links_container {
   display: flex;
+  column-gap: 10px;
+}
+
+.link_list {
   text-transform: lowercase;
+}
+
+.auth_links_container {
+  margin-left: auto;
+}
+
+.logout_button {
+  margin-left: auto;
 }

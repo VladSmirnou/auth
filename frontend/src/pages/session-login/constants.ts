@@ -1,4 +1,4 @@
-import type { SessionLoginArgs } from '../../api/auth-session-api/types';
+import type { SessionLoginArgs } from '../../api/session-auth-api/types';
 import {
   EMAIL_FIELD,
   PASSWORD_FIELD,

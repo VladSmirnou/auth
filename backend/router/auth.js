@@ -112,7 +112,7 @@ const pathValidationSchemaConfig = {
     '/signup': signUpValidationSchemaConfig
 }
 
-const errorFormatter = (errors) => {
+const formatErrors = (errors) => {
     return Object.entries(errors.mapped()).map(([field, { msg: message }]) => {
         return {
             field,
@@ -121,7 +121,7 @@ const errorFormatter = (errors) => {
     })
 }
 
-const validationSchema = async (req, res, next) => {
+const validateSubmittedAuthData = async (req, res, next) => {
     const schemaConfig = pathValidationSchemaConfig[req.route.path];
 
     await checkSchema(schemaConfig, ['body']).run(req);
@@ -129,13 +129,13 @@ const validationSchema = async (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errorFormatter(errors) })
+        return res.status(400).json({ errors: formatErrors(errors) })
     } else {
         next();
     }
 }
 
-authRouter.post('/signup', validationSchema, async (req, res) => {
+authRouter.post('/signup', validateSubmittedAuthData, async (req, res) => {
     const { email, username, password } = req.body;
 
     const userEmail = await db.oneOrNone(
@@ -164,7 +164,7 @@ authRouter.post('/signup', validationSchema, async (req, res) => {
 });
 
 authRouter.route('/login')
-    .post(validationSchema, async (req, res) => {
+    .post(validateSubmittedAuthData, async (req, res) => {
         const userData = req.body;
 
         const { email, password } = userData;
