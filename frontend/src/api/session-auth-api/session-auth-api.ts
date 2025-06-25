@@ -6,14 +6,14 @@ import {
 import type { SessionLoginArgs, SessionSignupArgs } from './types';
 import { SESSION_API_URLS } from './urls';
 
-const authSessionApi = sessionBaseApi.injectEndpoints({
+export const sessionAuthApi = sessionBaseApi.injectEndpoints({
   endpoints: (build) => ({
-    login: build.mutation<string, SessionLoginArgs>({
+    login: build.mutation<void, SessionLoginArgs>({
       query: (data) => ({
         url: SESSION_API_URLS.LOGIN,
         method: 'POST',
         body: data,
-        responseHandler: 'text',
+        responseHandler: 'content-type',
       }),
       argSchema: sessionLoginArgsSchema,
     }),
@@ -25,14 +25,15 @@ const authSessionApi = sessionBaseApi.injectEndpoints({
       }),
       argSchema: sessionSignupArgsSchema,
     }),
-    logout: build.query<void, void>({
+    logout: build.mutation<void, void>({
       query: () => ({
         url: SESSION_API_URLS.LOGIN,
         method: 'DELETE',
+        responseHandler: 'text',
       }),
     }),
   }),
 });
 
-export const { useLoginMutation, useLogoutQuery, useSignupMutation } =
-  authSessionApi;
+export const { useLoginMutation, useLogoutMutation, useSignupMutation } =
+  sessionAuthApi;

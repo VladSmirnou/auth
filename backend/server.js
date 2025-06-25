@@ -38,7 +38,6 @@ const sessionOptions = {
 
 app.use(express.json());
 app.use(cookieParser());
-// app.use(session({}))
 app.use(session(sessionOptions));
 app.use(cors(corsOptions));
 

@@ -1,26 +1,24 @@
+import type { FunctionComponent } from 'react';
 import { useAppSelector } from '../../hooks/typed-react-redux-hooks';
-import { selectCurrentAuthMode } from '../../model/app-slice/app-slice';
+import {
+  selectCurrentAuthMode,
+  selectIsLogin,
+} from '../../model/app-slice/app-slice';
 import type { AuthModes } from '../../model/app-slice/types';
 import { APP_ROUTES } from '../../router/constants/app-routes';
-import { Container } from '../container/container';
 import { AppLink } from '../app-link/app-link';
-// import { JWTNavigation } from './navigation/jwt-navigation';
-import { selectIsLogin } from '../../model/jwt-auth-slice/jwt-auth-slice';
-import { Button } from '../button/button';
+import { Container } from '../container/container';
+import { JwtLogoutButton } from './jwt-logout-button/jwt-logout-button';
+import { SessionLogoutButton } from './session-logout-button/session-logout-button';
 import styles from './header.module.css';
-import { not } from '../../shared/utils/not';
-
-// const navigation: Record<AuthModes, FunctionComponent> = {
-//   JWT: JWTNavigation,
-//   session: SessionNavigation,
-// };
 
 type Props = {
   authMode: AuthModes;
 };
 
-const LogoutButton = (props: Props) => {
-  return <Button className={styles.logout_button}>logout</Button>;
+const logoutButtonComponents: Record<AuthModes, FunctionComponent> = {
+  JWT: JwtLogoutButton,
+  session: SessionLogoutButton,
 };
 
 const AuthLinks = () => {
@@ -37,6 +35,7 @@ const AuthLinks = () => {
 };
 
 const ResourceLinks = ({ authMode }: Props) => {
+  const LogoutButton = logoutButtonComponents[authMode];
   return (
     <>
       <ul className={styles.resources_links_container}>
@@ -47,14 +46,17 @@ const ResourceLinks = ({ authMode }: Props) => {
           <AppLink to={APP_ROUTES.cards}>Cards</AppLink>
         </li>
       </ul>
-      <LogoutButton authMode={authMode} />
+      <LogoutButton />
     </>
   );
 };
 
 const AppLinks = () => {
+  // const isLogin = true;
   const isLogin = useAppSelector(selectIsLogin);
   const authMode = useAppSelector(selectCurrentAuthMode);
+
+  console.log(isLogin);
 
   if (authMode) {
     return isLogin ? <ResourceLinks authMode={authMode} /> : <AuthLinks />;

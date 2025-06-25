@@ -1,6 +1,6 @@
 import { useIsLoginQuery } from '../api/jwt-auth-api/jwt-auth-api';
+import { selectIsLogin } from '../model/app-slice/app-slice';
 import { useAppSelector } from './typed-react-redux-hooks';
-import { selectIsLogin } from '../model/jwt-auth-slice/jwt-auth-slice';
 
 export const useIsLogin = () => {
   const { isLoading } = useIsLoginQuery();

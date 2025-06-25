@@ -8,14 +8,19 @@ import { Form } from '../../components/form/form';
 import { Input } from '../../components/input/input';
 import { Section } from '../../components/section/section';
 import { APP_ROUTES } from '../../router/constants/app-routes';
-// import { DEFAULT_FORM_DATA } from './constants';
 // import styles from './login.module.css';
+import { toast } from 'react-toastify';
 import { sessionLoginArgsSchema } from '../../api/session-auth-api/schemas/endpoint-args-schemas';
+import { loginFormFieldErrorsSchema } from '../../api/session-auth-api/schemas/field-error-schemas';
 import { useLoginMutation } from '../../api/session-auth-api/session-auth-api';
 import type { SessionLoginArgs } from '../../api/session-auth-api/types';
+import { getApiErrorMessage } from '../../shared/utils/getApiErrorMessage';
 import { DEFAULT_FORM_DATA } from './constants';
+import { useNavigate } from 'react-router-dom';
 
 export const SessionLogin = () => {
+  const navigate = useNavigate();
+
   const [loginTrigger] = useLoginMutation();
 
   const {
@@ -29,23 +34,28 @@ export const SessionLogin = () => {
   });
 
   const onSubmit: SubmitHandler<SessionLoginArgs> = async (data) => {
+    debugger;
+
     const res = await loginTrigger(data);
-    console.log(res);
-    // if (res.error) {
-    //   const fieldsError = loginFormFieldErrorsSchema.safeParse(res.error);
-    //   if (fieldsError.success) {
-    //     fieldsError.data.forEach(({ field, message }) => {
-    //       setError(field, { message });
-    //     });
-    //   } else {
-    //     const errorMessage = getApiErrorMessage(res.error);
-    //     toast.error(errorMessage, {
-    //       position: 'bottom-right',
-    //       pauseOnHover: false,
-    //       pauseOnFocusLoss: false,
-    //     });
-    //   }
-    // }
+    if (res.error) {
+      const fieldsError = loginFormFieldErrorsSchema.safeParse(res.error);
+      if (fieldsError.success) {
+        fieldsError.data.forEach(({ field, message }) => {
+          setError(field, { message });
+        });
+      } else {
+        const errorMessage = getApiErrorMessage(res.error);
+        toast.error(errorMessage, {
+          position: 'bottom-right',
+          pauseOnHover: false,
+          pauseOnFocusLoss: false,
+        });
+      }
+    } else {
+      debugger;
+
+      navigate(APP_ROUTES.sessionCards, { replace: true });
+    }
   };
 
   return (

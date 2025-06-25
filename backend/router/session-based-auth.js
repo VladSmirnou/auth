@@ -128,7 +128,7 @@ sessionBasedAuthRouter.route('/login')
     .delete(checkIsAuthorized, (req, res) => {
         req.session.destroy(err => {
             if (err) {
-                console.log('error during session removal process: ', err)
+                console.log('An error during the session removal process: ', err)
             }
         });
         res.clearCookie('sessionId');

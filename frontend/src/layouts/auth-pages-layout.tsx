@@ -3,7 +3,7 @@ import { Loader } from '../components/loader/loader';
 import { useAppSelector } from '../hooks/typed-react-redux-hooks';
 import { useIsLogin } from '../hooks/useIsLogin';
 import { APP_ROUTES } from '../router/constants/app-routes';
-import { selectForceLogoutPath } from '../model/jwt-auth-slice/jwt-auth-slice';
+import { selectForceLogoutPath } from '../model/app-slice/app-slice';
 
 export const AuthPagesLayout = () => {
   const { isLoading, isLogin } = useIsLogin();

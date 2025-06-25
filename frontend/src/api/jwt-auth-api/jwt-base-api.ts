@@ -6,12 +6,12 @@ import {
   type FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react';
 import { Mutex } from 'async-mutex';
+import { not } from '../../shared/utils/not';
 import type { AppState } from '../../store/types';
-import { JWT_API_URLS } from './urls';
+import { StatusCodes } from '../shared/status-codes';
 import { newAccessTokenReceived, refreshTokenExpired } from './actions';
 import type { NewAccessTokeReponse } from './types';
-import { StatusCodes } from '../shared/status-codes';
-import { not } from '../../shared/utils/not';
+import { JWT_API_URLS } from './urls';
 
 const mutex = new Mutex();
 
@@ -54,7 +54,7 @@ const baseQueryWithReauth: BaseQueryFn<
           );
           result = await baseQuery(args, api, extraOptions);
         } else {
-          const isLogin = (api.getState() as AppState).jwtAuth.accessToken;
+          const isLogin = (api.getState() as AppState).appSlice.isLogin;
           if (isLogin) {
             api.dispatch(
               refreshTokenExpired({

@@ -1,3 +1,3 @@
 export const CARDS_API_URLS = {
-  CARDS: 'cards/allCards',
+  CARDS: 'cards/session-allCards',
 };

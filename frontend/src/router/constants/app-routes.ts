@@ -5,4 +5,5 @@ export const APP_ROUTES = {
   root: '/',
   cards: 'cards',
   randomPage: 'randomPage',
+  sessionCardscards: '/sessionCards',
 };

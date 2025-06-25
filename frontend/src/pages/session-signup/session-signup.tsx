@@ -11,8 +11,11 @@ import { Input } from '../../components/input/input';
 import { Section } from '../../components/section/section';
 import { APP_ROUTES } from '../../router/constants/app-routes';
 // import styles from './signup.module.css';
+import { toast } from 'react-toastify';
+import { signupFormFieldErrorsSchema } from '../../api/session-auth-api/schemas/field-error-schemas';
 import { sessionSignupFormDataSchema } from '../../api/session-auth-api/schemas/form-data-schema';
 import type { SessionSignupFormDataSchemaType } from '../../api/session-auth-api/types';
+import { getApiErrorMessage } from '../../shared/utils/getApiErrorMessage';
 import { DEFAULT_FORM_DATA } from './constants';
 
 export const SessionSignup = () => {
@@ -33,26 +36,24 @@ export const SessionSignup = () => {
   const onSubmit: SubmitHandler<SessionSignupFormDataSchemaType> = async (
     data
   ) => {
-    console.log(data);
-    // const res = await signupTrigger(data);
-
-    // if (res.error) {
-    //   const fieldsError = signupFormFieldErrorsSchema.safeParse(res.error);
-    //   if (fieldsError.success) {
-    //     fieldsError.data.forEach(({ field, message }) => {
-    //       setError(field, { message });
-    //     });
-    //   } else {
-    //     const errorMessage = getApiErrorMessage(res.error);
-    //     toast.error(errorMessage, {
-    //       position: 'bottom-right',
-    //       pauseOnHover: false,
-    //       pauseOnFocusLoss: false,
-    //     });
-    //   }
-    // } else {
-    //   navigate(APP_ROUTES.userCreated, { replace: true });
-    // }
+    const res = await signupTrigger(data);
+    if (res.error) {
+      const fieldsError = signupFormFieldErrorsSchema.safeParse(res.error);
+      if (fieldsError.success) {
+        fieldsError.data.forEach(({ field, message }) => {
+          setError(field, { message });
+        });
+      } else {
+        const errorMessage = getApiErrorMessage(res.error);
+        toast.error(errorMessage, {
+          position: 'bottom-right',
+          pauseOnHover: false,
+          pauseOnFocusLoss: false,
+        });
+      }
+    } else {
+      navigate(APP_ROUTES.userCreated, { replace: true });
+    }
   };
 
   return (

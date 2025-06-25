@@ -7,7 +7,6 @@ import {
 
 const initialState = {
   accessToken: undefined as undefined | string,
-  forceLogoutPath: undefined as undefined | string,
 };
 
 const jwtAuthSlice = createSlice({
@@ -23,10 +22,7 @@ const jwtAuthSlice = createSlice({
     ),
     refreshTokenExpired: builder.addCase(
       refreshTokenExpired,
-      (state, action) => {
-        state.accessToken = undefined;
-        state.forceLogoutPath = action.payload.logoutURL;
-      }
+      () => initialState
     ),
     userLoggedIn: builder.addMatcher(
       jwtAuthApi.endpoints.login.matchFulfilled,
@@ -39,12 +35,7 @@ const jwtAuthSlice = createSlice({
       () => initialState
     ),
   }),
-  selectors: {
-    selectIsLogin: (state) => !!state.accessToken,
-    selectForceLogoutPath: (state) => state.forceLogoutPath,
-  },
 });
 
 export const { name: jwtAuthSliceName, reducer: jwtAuthSliceReducer } =
   jwtAuthSlice;
-export const { selectIsLogin, selectForceLogoutPath } = jwtAuthSlice.selectors;

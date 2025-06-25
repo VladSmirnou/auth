@@ -12,6 +12,7 @@ import { RandomPage } from '../pages/random-page/random-page';
 import type { AppAuthModes, AuthModes } from '../model/app-slice/types';
 import { SessionSignup } from '../pages/session-signup/session-signup';
 import { SessionLogin } from '../pages/session-login/session-login';
+import { SessionCards } from '../pages/session-cards/session-cards';
 
 const userCreatedRoute: RouteObject = {
   path: APP_ROUTES.userCreated,
@@ -63,6 +64,10 @@ const selectRouter = (authMode: AuthModes) => {
       {
         path: APP_ROUTES.login,
         Component: SessionLogin,
+      },
+      {
+        path: APP_ROUTES.sessionCards,
+        Component: SessionCards,
       },
       userCreatedRoute,
     ];

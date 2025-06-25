@@ -1,9 +1,9 @@
-import { jwtBaseApi } from '../jwt-base-api';
 import { cardsSchema } from '../../shared/cards-api/schemas';
 import type { Cards } from '../../shared/cards-api/types';
+import { sessionAuthApi } from '../session-auth-api';
 import { CARDS_API_URLS } from './urls';
 
-const cardsApi = jwtBaseApi.injectEndpoints({
+const sessionCardsApi = sessionAuthApi.injectEndpoints({
   endpoints: (build) => ({
     getCards: build.query<Cards, void>({
       query: () => CARDS_API_URLS.CARDS,
@@ -13,4 +13,4 @@ const cardsApi = jwtBaseApi.injectEndpoints({
   }),
 });
 
-export const { useGetCardsQuery } = cardsApi;
+export const { useGetCardsQuery } = sessionCardsApi;

@@ -1,9 +1,0 @@
-.auth_links_container {
-  margin-left: auto;
-}
-
-.auth_links_container,
-.private_links_container {
-  display: flex;
-  column-gap: 10px;
-}
